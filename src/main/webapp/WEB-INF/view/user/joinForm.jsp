@@ -33,8 +33,12 @@
 
         <script>
             function valid() {
-                alert("회원가입 유효성 검사");
+                if ($("#password").val() != $("#passwordcheck").val()) {
+                    alert("비밀번호가 일치하지 않습니다");
+                    return false;
+                }
             }
         </script>
+
 
         <%@ include file="../layout/footer.jsp" %>
