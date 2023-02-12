@@ -33,7 +33,7 @@
 
         <script>
             function valid() {
-                if ($("#password").val() != $("#passwordcheck").val()) {
+                if ($("#password").val() != $("#passwordCheck").val()) {
                     alert("비밀번호가 일치하지 않습니다");
                     return false;
                 }

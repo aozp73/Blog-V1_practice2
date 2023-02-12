@@ -12,6 +12,8 @@ public interface UserRepository {
 
     public List<User> findByAll();
 
+    public User findByUsername(String username);
+
     public User findById(int id);
 
     public int updateById(@Param("id") int id, @Param("password") String password, @Param("email") String email);
