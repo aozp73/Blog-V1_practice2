@@ -9,6 +9,13 @@
         values (#{comment}, #{boardId}, #{userId}, now())
     </insert>
 
+    <select id="findByBoardIdWithUser" resultType="shop.mtcoding.blogv1_2.dto.reply.ReplyResp$ReplyAllRespDto">
+        SELECT rt.id reply_id, rt.comment, rt.board_id board_id, rt.user_id user_id, ut.username FROM REPLY_TB rt
+        inner join user_tb ut
+        on rt.user_id = ut.id
+        where rt.board_id = #{boardId}
+    </select>
+
     <select id="findByAll" resultType="shop.mtcoding.blogv1_2.model.Reply">
         select * from reply_tb
     </select>

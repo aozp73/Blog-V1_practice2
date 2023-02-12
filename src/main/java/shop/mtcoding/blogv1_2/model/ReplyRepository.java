@@ -5,8 +5,13 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import shop.mtcoding.blogv1_2.dto.reply.ReplyResp.ReplyAllRespDto;
+
 @Mapper
 public interface ReplyRepository {
+
+    public List<ReplyAllRespDto> findByBoardIdWithUser(int boardId);
+
     public List<Reply> findAll();
 
     public Reply findById(int id);
