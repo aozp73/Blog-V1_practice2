@@ -1,10 +1,13 @@
 package shop.mtcoding.blogv1_2.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+
+import javax.servlet.http.HttpSession;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,21 +57,26 @@ public class UserControllerTest {
                 .content(requestBody)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE));
 
-        // when 테스트 체크
+        // when
         resultActions.andExpect(status().is3xxRedirection());
     }
 
     @Test
     public void login_test() throws Exception {
         // given
-        String requestBody = "username=cos&password=1234";
+        String requestBody = "username=ssar&password=1234";
 
         // then
         ResultActions resultActions = mvc.perform(post("/login")
                 .content(requestBody)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE));
 
-        // when 테스트 체크
+        HttpSession session = resultActions.andReturn().getRequest().getSession();
+        User user = (User) session.getAttribute("principal");
+
+        // when
         resultActions.andExpect(status().is3xxRedirection());
+        assertThat(user.getUsername()).isEqualTo("ssar");
+
     }
 }
