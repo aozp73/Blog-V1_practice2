@@ -21,6 +21,7 @@ import shop.mtcoding.blogv1_2.dto.board.BoardReq.BoardSaveReqDto;
 import shop.mtcoding.blogv1_2.dto.board.BoardResp.BoardUpdateRespDto;
 import shop.mtcoding.blogv1_2.model.Board;
 import shop.mtcoding.blogv1_2.model.BoardRepository;
+import shop.mtcoding.blogv1_2.model.ReplyRepository;
 import shop.mtcoding.blogv1_2.model.User;
 import shop.mtcoding.blogv1_2.service.BoardService;
 
@@ -33,6 +34,8 @@ public class BoardController {
     private final BoardService boardService;
 
     private final BoardRepository boardRepository;
+
+    private final ReplyRepository replyRepository;
 
     @GetMapping("/board/{id}/updateForm") // 유효성검사 x, 인증 o, 권한 o
     public String updateForm(@PathVariable int id, Model model) {
@@ -55,8 +58,6 @@ public class BoardController {
 
     @PutMapping("/board/{id}") // 유효성검사 o, 인증 o, 권한 o
     public ResponseEntity<?> update(@PathVariable int id, @RequestBody BoardUpdateRespDto boardUpdateRespDto) {
-        System.out.println("디버깅1" + id);
-        System.out.println("디버깅2" + boardUpdateRespDto.getBoardId());
 
         // 인증
         User user = (User) session.getAttribute("principal");
@@ -96,6 +97,7 @@ public class BoardController {
     @GetMapping("/board/{id}")
     public String detail(@PathVariable int id, Model model) {
         model.addAttribute("boardDto", boardRepository.findByBoardIdWithUser(id));
+        model.addAttribute("replyDtos", replyRepository.findByBoardIdWithUser(id));
         return "/board/detail";
     }
 

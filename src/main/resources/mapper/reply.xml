@@ -14,6 +14,7 @@
         inner join user_tb ut
         on rt.user_id = ut.id
         where rt.board_id = #{boardId}
+        order by reply_id desc;
     </select>
 
     <select id="findByAll" resultType="shop.mtcoding.blogv1_2.model.Reply">

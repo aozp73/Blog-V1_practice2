@@ -43,13 +43,16 @@
             <div class="card">
                 <div class="card-header">댓글 리스트</div>
                 <ul id="reply-box" class="list-group">
+                <c:forEach items="${replyDtos}" var="replyDto">
                     <li id="reply-1" class="list-group-item d-flex justify-content-between">
-                        <div>댓글내용입니다</div>
+                        <div>${replyDto.comment}</div>
                         <div class="d-flex">
-                            <div class="font-italic">작성자 : cos &nbsp;</div>
+                            <div class="font-italic">작성자 : ${replyDto.username} &nbsp;</div>
                             <button onClick="replyDelete()" class="badge bg-secondary">삭제</button>
                         </div>
                     </li>
+                </c:forEach>
+
                 </ul>
             </div>
         </div>
