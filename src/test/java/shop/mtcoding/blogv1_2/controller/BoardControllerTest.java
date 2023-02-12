@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.blogv1_2.dto.board.BoardReq.BoardSaveReqDto;
+import shop.mtcoding.blogv1_2.dto.board.BoardResp.BoardDetailRespDto;
 import shop.mtcoding.blogv1_2.dto.board.BoardResp.BoardMainRespDto;
 import shop.mtcoding.blogv1_2.model.User;
 
@@ -71,6 +72,23 @@ public class BoardControllerTest {
         resultActions.andExpect(status().isOk());
         assertThat(board.get(5).getTitle()).isEqualTo("6번째 제목");
         assertThat(board.get(5).getUsername()).isEqualTo("love");
+    }
+
+    @Test
+    public void getDetail_test() throws Exception {
+        // given
+        int id = 1;
+
+        // then
+        ResultActions resultActions = mvc.perform(get("/board/" + id));
+        Map<String, Object> map = resultActions.andReturn().getModelAndView().getModel();
+        BoardDetailRespDto board = (BoardDetailRespDto) map.get("boardDto");
+        // String dto = om.writeValueAsString(board);
+        // System.out.println("테스트 : " + dto);
+
+        // when
+        resultActions.andExpect(status().isOk());
+        assertThat(board.getUsername()).isEqualTo("ssar");
     }
 
     @Test

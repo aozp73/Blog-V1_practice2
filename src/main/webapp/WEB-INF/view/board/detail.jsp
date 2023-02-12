@@ -11,17 +11,17 @@
 
 
             <div class="mb-2">
-                글 번호 : <span id="id"><i>3 </i></span> 작성자 : <span class="me-3"><i>ssar </i></span>
+                글 번호 : <span id="id"><i>${boardDto.boardId} </i></span> 작성자 : <span class="me-3"><i>${boardDto.username}</i></span>
 
                 <i id="heart" class="fa-regular fa-heart my-xl my-cursor" value="no"></i>
             </div>
 
             <div>
-                <h3>제목입니다</h3>
+                <h3>${boardDto.title}</h3>
             </div>
             <hr />
             <div>
-                <div>내용입니다</div>
+                <div>${boardDto.content}</div>
             </div>
             <hr />
 
