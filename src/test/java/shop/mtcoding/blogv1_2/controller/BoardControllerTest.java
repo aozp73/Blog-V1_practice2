@@ -1,11 +1,15 @@
 package shop.mtcoding.blogv1_2.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.blogv1_2.dto.board.BoardReq.BoardSaveReqDto;
+import shop.mtcoding.blogv1_2.model.Board;
 import shop.mtcoding.blogv1_2.model.User;
 
 @Transactional
@@ -49,6 +54,22 @@ public class BoardControllerTest {
 
         mockSession = new MockHttpSession();
         mockSession.setAttribute("principal", user);
+    }
+
+    @Test
+    public void getMain_test() throws Exception {
+        // given
+
+        // then
+        ResultActions resultActions = mvc.perform(get("/"));
+        Map<String, Object> map = resultActions.andReturn().getModelAndView().getModel();
+        List<Board> board = (List<Board>) map.get("dtos");
+        // String dtos = om.writeValueAsString(board);
+        // System.out.println("테스트 : " + dtos);
+
+        // when
+        resultActions.andExpect(status().isOk());
+        assertThat(board.get(5).getTitle()).isEqualTo("6번째 제목");
     }
 
     @Test
