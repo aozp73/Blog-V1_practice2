@@ -1,7 +1,9 @@
 package shop.mtcoding.blogv1_2.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -65,8 +67,23 @@ public class ReplyControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .session(mockSession));
 
-        // then 
+        // then
         resultActions.andExpect(jsonPath("$.msg").value("댓글작성 완료"));
+
+    }
+
+    @Test
+    public void delete_test() throws Exception {
+        // given
+        int replyId = 1;
+
+        // when
+        ResultActions resultActions = mvc.perform(delete("/reply/" + replyId)
+                .session(mockSession));
+
+        // then
+        resultActions.andExpect(jsonPath("$.msg").value("댓글삭제 완료"));
+        resultActions.andExpect(status().isOk());
 
     }
 
