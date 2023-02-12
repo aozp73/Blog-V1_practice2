@@ -35,29 +35,55 @@
                         <textarea id="reply-content" class="form-control" rows="1"></textarea>
                     </div>
                     <div class="card-footer">
-                        <button type="button" id="btn-reply-save" class="btn btn-primary">등록</button>
+                        <button onclick="postReply()" type="button" id="btn-reply-save"
+                            class="btn btn-primary">등록</button>
                     </div>
                 </form>
             </div>
+
             <br />
             <div class="card">
                 <div class="card-header">댓글 리스트</div>
                 <ul id="reply-box" class="list-group">
-                <c:forEach items="${replyDtos}" var="replyDto">
-                    <li id="reply-1" class="list-group-item d-flex justify-content-between">
-                        <div>${replyDto.comment}</div>
-                        <div class="d-flex">
-                            <div class="font-italic">작성자 : ${replyDto.username} &nbsp;</div>
-                            <button onClick="replyDelete()" class="badge bg-secondary">삭제</button>
-                        </div>
-                    </li>
-                </c:forEach>
+
+                    <c:forEach items="${replyDtos}" var="replyDto">
+                        <li id="reply-1" class="list-group-item d-flex justify-content-between">
+                            <div>${replyDto.comment}</div>
+                            <div class="d-flex">
+                                <div class="font-italic">작성자 : ${replyDto.username} &nbsp;</div>
+                                <button onClick="replyDelete()" class="badge bg-secondary">삭제</button>
+                            </div>
+                        </li>
+                    </c:forEach>
 
                 </ul>
             </div>
         </div>
 
         <script>
+            function postReply() {
+                let content = $("#reply-content").val()
+                let boardId = `${boardDto.boardId}`
+
+                let reply = {
+                    content: content,
+                    boardId: boardId
+                }
+
+                $.ajax({
+                    type: "post",
+                    url: "/reply",
+                    data: JSON.stringify(reply),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json"
+                }).done((res) => {
+                    alert(res.msg);
+                    location.href = "/board/" + boardId;
+                }).fail((err) => {
+                    alert(err.responseJSON.msg);
+                });
+            }
+
             function deleteById(id) {
                 $.ajax({
                     type: "delete",
