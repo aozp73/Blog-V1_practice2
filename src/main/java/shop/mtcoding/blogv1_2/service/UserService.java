@@ -32,7 +32,18 @@ public class UserService {
 
     }
 
-    public void 로그인(UserLoginReqDto userLoginReqDto) {
+    public User 로그인(UserLoginReqDto userLoginReqDto) {
+        User user = userRepository.findByUsername(userLoginReqDto.getUsername());
 
+        // 유저이름 존재 확인
+        if (user == null) {
+            throw new CustomException("아이디를 확인해주세요");
+        }
+        // password 일치 확인
+        if (!user.getPassword().equals(userLoginReqDto.getPassword())) {
+            throw new CustomException("비밀번호를 확인해주세요");
+        }
+
+        return user;
     }
 }

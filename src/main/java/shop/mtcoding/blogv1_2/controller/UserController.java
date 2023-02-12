@@ -57,7 +57,8 @@ public class UserController {
             throw new CustomException("비밀번호를 입력하세요");
         }
 
-        userService.로그인(userLoginReqDto);
+        User principal = userService.로그인(userLoginReqDto);
+        session.setAttribute("principal", principal);
 
         return "redirect:/";
     }
