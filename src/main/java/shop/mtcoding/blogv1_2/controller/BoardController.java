@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,19 @@ public class BoardController {
     private final BoardService boardService;
 
     private final BoardRepository boardRepository;
+
+    @DeleteMapping("/board/{id}") // 유효성검사 x, 인증 o
+    public ResponseEntity<?> delete(@PathVariable int id) {
+        // 인증
+        User user = (User) session.getAttribute("principal");
+        if (user == null) {
+            throw new CustomException("로그인이 필요합니다");
+        }
+
+        boardService.게시글삭제(id, user.getId());
+
+        return new ResponseEntity<>(new RespDto<>(1, "게시글 삭제완료", null), HttpStatus.OK);
+    }
 
     @GetMapping("/board/{id}")
     public String detail(@PathVariable int id, Model model) {

@@ -3,15 +3,19 @@
     <%@ include file="../layout/header.jsp" %>
 
         <div class="container my-3">
-            <div class="mb-3">
-                <a href="/board/1/updateForm" class="btn btn-warning">수정</a>
-                <button id="btn-delete" class="btn btn-danger">삭제</button>
-            </div>
+            <c:if test="${principal.id == boardDto.userId}">
+                <div class="mb-3">
+                    <a href="/board/1/updateForm" class="btn btn-warning">수정</a>
+                    <button onclick="deleteById(`${boardDto.boardId}`)" id="btn-delete"
+                        class="btn btn-danger">삭제</button>
+                </div>
+            </c:if>
 
 
 
             <div class="mb-2">
-                글 번호 : <span id="id"><i>${boardDto.boardId} </i></span> 작성자 : <span class="me-3"><i>${boardDto.username}</i></span>
+                글 번호 : <span id="id"><i>${boardDto.boardId} </i></span> 작성자 : <span
+                    class="me-3"><i>${boardDto.username}</i></span>
 
                 <i id="heart" class="fa-regular fa-heart my-xl my-cursor" value="no"></i>
             </div>
@@ -49,5 +53,20 @@
                 </ul>
             </div>
         </div>
+
+        <script>
+            function deleteById(id) {
+                $.ajax({
+                    type: "delete",
+                    url: "/board/" + id,
+                    dataType: "json"
+                }).done((res) => {
+                    alert(res.msg);
+                    location.href = "/";
+                }).fail((err) => {
+                    alert(err.responseJSON.msg);
+                });
+            }
+        </script>
 
         <%@ include file="../layout/footer.jsp" %>
