@@ -29,6 +29,7 @@
             </div>
             <hr />
 
+            <c:if test="${principal != null}" >
             <div class="card">
                 <form>
                     <div class="card-body">
@@ -40,6 +41,7 @@
                     </div>
                 </form>
             </div>
+            </c:if>
 
             <br />
             <div class="card">

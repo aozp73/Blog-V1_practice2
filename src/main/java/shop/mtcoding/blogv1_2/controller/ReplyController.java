@@ -37,7 +37,7 @@ public class ReplyController {
             throw new CustomApiException("댓글 내용을 입력하세요");
         }
 
-        replyService.댓글쓰기(replySaveReqDto);
+        replyService.댓글쓰기(replySaveReqDto, user.getId());
 
         return new ResponseEntity<>(new RespDto<>(1, "댓글작성 완료", null), HttpStatus.OK);
     }
