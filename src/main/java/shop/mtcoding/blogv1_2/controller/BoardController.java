@@ -56,7 +56,7 @@ public class BoardController {
         if (boardSaveReqDto.getTitle().length() > 100) {
             throw new CustomException("제목은 100자 이내여야 합니다");
         }
-        boardService.게시글등록(boardSaveReqDto);
+        boardService.게시글등록(boardSaveReqDto, user.getId());
 
         return new ResponseEntity<>(new RespDto<>(1, "게시글 등록완료", null), HttpStatus.CREATED);
     }
