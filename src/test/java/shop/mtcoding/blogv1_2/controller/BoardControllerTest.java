@@ -1,11 +1,15 @@
 package shop.mtcoding.blogv1_2.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.blogv1_2.dto.board.BoardReq.BoardSaveReqDto;
+import shop.mtcoding.blogv1_2.dto.board.BoardResp.BoardMainRespDto;
 import shop.mtcoding.blogv1_2.model.User;
 
 @Transactional
@@ -52,6 +57,23 @@ public class BoardControllerTest {
     }
 
     @Test
+    public void getMain_test() throws Exception {
+        // given
+
+        // then
+        ResultActions resultActions = mvc.perform(get("/"));
+        Map<String, Object> map = resultActions.andReturn().getModelAndView().getModel();
+        List<BoardMainRespDto> board = (List<BoardMainRespDto>) map.get("dtos");
+        // String dtos = om.writeValueAsString(board);
+        // System.out.println("테스트 : " + dtos);
+
+        // when
+        resultActions.andExpect(status().isOk());
+        assertThat(board.get(5).getTitle()).isEqualTo("6번째 제목");
+        assertThat(board.get(5).getUsername()).isEqualTo("love");
+    }
+
+    @Test
     public void post_test() throws Exception {
         // given
         BoardSaveReqDto boardSaveReqDto = new BoardSaveReqDto();
@@ -64,12 +86,12 @@ public class BoardControllerTest {
                 .content(requestBody)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .session(mockSession));
-        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        // String responseBody =
+        // resultActions.andReturn().getResponse().getContentAsString();
         // System.out.println("테스트 : " + responseBody);
 
         // when
         resultActions.andExpect(status().isCreated());
         resultActions.andExpect(jsonPath("$.msg").value("게시글 등록완료"));
-        // service test
     }
 }
