@@ -40,14 +40,14 @@ public class BoardController {
     @GetMapping("/board/{id}/updateForm") // 유효성검사 x, 인증 o, 권한 o
     public String updateForm(@PathVariable int id, Model model) {
         // 인증
-        User user = (User) session.getAttribute("principal");
-        if (user == null) {
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
             throw new CustomException("로그인이 필요합니다", HttpStatus.UNAUTHORIZED);
         }
 
         // 권한
         Board boardPS = boardRepository.findById(id);
-        if (boardPS.getUserId() != user.getId()) {
+        if (boardPS.getUserId() != principal.getId()) {
             throw new CustomException("로그인이 필요합니다", HttpStatus.FORBIDDEN);
         }
 
@@ -60,8 +60,8 @@ public class BoardController {
     public ResponseEntity<?> update(@PathVariable int id, @RequestBody BoardUpdateRespDto boardUpdateRespDto) {
 
         // 인증
-        User user = (User) session.getAttribute("principal");
-        if (user == null) {
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
             throw new CustomApiException("로그인이 필요합니다");
         }
 
@@ -76,7 +76,7 @@ public class BoardController {
             throw new CustomApiException("제목은 100자 이내여야 합니다");
         }
 
-        boardService.게시글수정(boardUpdateRespDto, user.getId());
+        boardService.게시글수정(boardUpdateRespDto, principal.getId());
 
         return new ResponseEntity<>(new RespDto<>(1, "게시글 수정완료", null), HttpStatus.OK);
     }
@@ -84,12 +84,12 @@ public class BoardController {
     @DeleteMapping("/board/{id}") // 유효성검사 x, 인증 o
     public ResponseEntity<?> delete(@PathVariable int id) {
         // 인증
-        User user = (User) session.getAttribute("principal");
-        if (user == null) {
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
             throw new CustomApiException("로그인이 필요합니다");
         }
 
-        boardService.게시글삭제(id, user.getId());
+        boardService.게시글삭제(id, principal.getId());
 
         return new ResponseEntity<>(new RespDto<>(1, "게시글 삭제완료", null), HttpStatus.OK);
     }
@@ -109,8 +109,8 @@ public class BoardController {
 
     @GetMapping("/board/saveForm") // 유효성검사 x, 인증 o, 권한 x
     public String saveForm() {
-        User user = (User) session.getAttribute("principal");
-        if (user == null) {
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
             throw new CustomException("로그인이 필요합니다");
         }
         return "board/saveForm";
@@ -119,8 +119,8 @@ public class BoardController {
     @PostMapping("/board") // 유효성검사 o, 인증 o, 권한 x
     public ResponseEntity<?> save(@RequestBody BoardSaveReqDto boardSaveReqDto) {
         // 인증
-        User user = (User) session.getAttribute("principal");
-        if (user == null) {
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
             throw new CustomApiException("로그인이 필요합니다");
         }
 
@@ -134,7 +134,7 @@ public class BoardController {
         if (boardSaveReqDto.getTitle().length() > 100) {
             throw new CustomApiException("제목은 100자 이내여야 합니다");
         }
-        boardService.게시글등록(boardSaveReqDto, user.getId());
+        boardService.게시글등록(boardSaveReqDto, principal.getId());
 
         return new ResponseEntity<>(new RespDto<>(1, "게시글 등록완료", null), HttpStatus.CREATED);
     }
