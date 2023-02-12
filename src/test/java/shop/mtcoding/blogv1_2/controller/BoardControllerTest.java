@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,6 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import shop.mtcoding.blogv1_2.dto.board.BoardReq.BoardSaveReqDto;
 import shop.mtcoding.blogv1_2.dto.board.BoardResp.BoardDetailRespDto;
 import shop.mtcoding.blogv1_2.dto.board.BoardResp.BoardMainRespDto;
+import shop.mtcoding.blogv1_2.dto.board.BoardResp.BoardUpdateRespDto;
 import shop.mtcoding.blogv1_2.model.User;
 
 @Transactional
@@ -56,6 +58,30 @@ public class BoardControllerTest {
 
         mockSession = new MockHttpSession();
         mockSession.setAttribute("principal", user);
+    }
+
+    @Test
+    public void put_test() throws Exception {
+        // given
+        int id = 1;
+        BoardUpdateRespDto boardUpdateRespDto = new BoardUpdateRespDto();
+        boardUpdateRespDto.setBoardId(1);
+        boardUpdateRespDto.setContent("제목수정");
+        boardUpdateRespDto.setTitle("내용수정");
+        String requestBody = om.writeValueAsString(boardUpdateRespDto);
+
+        // then
+        ResultActions resultActions = mvc.perform(put("/board/" + id)
+                .content(requestBody)
+                .contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE)
+                .session(mockSession));
+
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        // System.out.println("테스트 : " + responseBody);
+
+        // when Service test
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.msg").value("게시글 수정완료"));
     }
 
     @Test
