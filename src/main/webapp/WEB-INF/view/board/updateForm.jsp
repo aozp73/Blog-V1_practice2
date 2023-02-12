@@ -6,12 +6,12 @@
             <form>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Enter title" name="title" id="title"
-                        value="제목입니다">
+                        value="${dto.title}">
                 </div>
 
                 <div class="form-group">
                     <textarea class="form-control summernote" rows="5" id="content" name="content">
-                    내용입니다.
+                    ${dto.content}
                 </textarea>
                 </div>
             </form>
