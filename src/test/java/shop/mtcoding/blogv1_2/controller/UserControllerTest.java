@@ -54,7 +54,7 @@ public class UserControllerTest {
                 .content(requestBody)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE));
 
-        // when
+        // when 테스트 체크
         resultActions.andExpect(status().is3xxRedirection());
     }
 }
