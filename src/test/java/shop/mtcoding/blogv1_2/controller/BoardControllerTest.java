@@ -1,6 +1,7 @@
 package shop.mtcoding.blogv1_2.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -55,6 +56,21 @@ public class BoardControllerTest {
 
         mockSession = new MockHttpSession();
         mockSession.setAttribute("principal", user);
+    }
+
+    @Test
+    public void delete_test() throws Exception {
+        // given
+        int id = 1;
+
+        // then
+        ResultActions resultActions = mvc.perform(delete("/board/" + id).session(mockSession));
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + responseBody);
+
+        // when
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.msg").value("게시글 삭제완료"));
     }
 
     @Test
