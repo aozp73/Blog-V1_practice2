@@ -12,6 +12,10 @@
         select * from user_tb
     </select>
 
+    <select id="findByUsername" resultType="shop.mtcoding.blogv1_2.model.User">
+        select * from user_tb where username = #{username}
+    </select>
+
     <select id="findById" resultType="shop.mtcoding.blogv1_2.model.User">
         select * from user_tb where id = #{id}
     </select>
