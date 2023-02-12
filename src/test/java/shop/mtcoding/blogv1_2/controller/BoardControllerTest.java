@@ -68,7 +68,7 @@ public class BoardControllerTest {
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
         System.out.println("테스트 : " + responseBody);
 
-        // when
+        // when Service test
         resultActions.andExpect(status().isOk());
         resultActions.andExpect(jsonPath("$.msg").value("게시글 삭제완료"));
     }
