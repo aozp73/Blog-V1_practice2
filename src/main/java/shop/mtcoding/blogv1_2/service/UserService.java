@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.blogv1_2.customException.ex.CustomException;
 import shop.mtcoding.blogv1_2.dto.user.UserReq.UserJoinReqDto;
+import shop.mtcoding.blogv1_2.dto.user.UserReq.UserLoginReqDto;
 import shop.mtcoding.blogv1_2.model.User;
 import shop.mtcoding.blogv1_2.model.UserRepository;
 
@@ -28,6 +29,10 @@ public class UserService {
         } catch (Exception e) {
             throw new CustomException("일시적인 서버문제가 발생했습니다", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+    }
+
+    public void 로그인(UserLoginReqDto userLoginReqDto) {
 
     }
 }
