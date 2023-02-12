@@ -15,7 +15,7 @@
                 </textarea>
                 </div>
             </form>
-            <button type="button" class="btn btn-primary">글수정완료</button>
+            <button onclick="putById(`${dto.id}`)" type="button" class="btn btn-primary">글수정완료</button>
 
         </div>
 
@@ -24,6 +24,31 @@
                 tabsize: 2,
                 height: 400
             });
+        </script>
+
+        <script>
+            function putById(id) {
+                let title = $("#title").val();
+                let content = $("#content").val();
+
+                let board = {
+                    title: title,
+                    content: content
+                }
+
+                $.ajax({
+                    type: "put",
+                    url: "/board/" + id,
+                    data: JSON.stringify(board),
+                    contentType: "application/json; charset=urf-8",
+                    dataType: "json"
+                }).done((res) => {
+                    alert(res.msg);
+                    location.href = "/board/" + id;
+                }).fail((err) => {
+                    alert(err.responseJSON.msg);
+                });
+            }
         </script>
 
         <%@ include file="../layout/footer.jsp" %>
