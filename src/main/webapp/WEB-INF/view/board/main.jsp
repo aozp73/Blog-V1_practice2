@@ -4,15 +4,17 @@
 
         <div class="container my-3">
             <div class="my-board-box row">
+                <c:forEach items="${dtos}" var="dto">
                 <div class="card col-lg-3">
                     <img class="card-img-top" style="height: 250px;" src="images/ship.jpg" alt="Card image">
                     <hr>
                     <div class="card-body">
-                        <div>작성자 : </div>
-                        <h4 class="card-title my-text-ellipsis"></h4>
+                        <div>작성자 : ${dto.username}</div>
+                        <h4 class="card-title my-text-ellipsis">${dto.title}</h4>
                         <a href="/board/1" class="btn btn-primary">상세보기</a>
                     </div>
                 </div>
+                </c:forEach>
 
             </div>
             <ul class="pagination mt-3 d-flex justify-content-center">
