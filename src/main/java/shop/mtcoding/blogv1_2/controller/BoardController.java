@@ -74,7 +74,7 @@ public class BoardController {
 
         boardService.게시글수정(id, user.getId());
 
-        return new ResponseEntity<>(new RespDto<>(1, "게시글 삭제완료", null), HttpStatus.OK);
+        return new ResponseEntity<>(new RespDto<>(1, "게시글 수정완료", null), HttpStatus.OK);
     }
 
     @DeleteMapping("/board/{id}") // 유효성검사 x, 인증 o
