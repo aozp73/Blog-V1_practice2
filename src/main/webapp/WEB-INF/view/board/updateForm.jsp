@@ -32,6 +32,7 @@
                 let content = $("#content").val();
 
                 let board = {
+                    id: id,
                     title: title,
                     content: content
                 }

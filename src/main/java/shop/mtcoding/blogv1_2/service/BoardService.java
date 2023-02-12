@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import shop.mtcoding.blogv1_2.customException.ex.CustomApiException;
 import shop.mtcoding.blogv1_2.dto.board.BoardReq.BoardSaveReqDto;
+import shop.mtcoding.blogv1_2.dto.board.BoardResp.BoardUpdateRespDto;
 import shop.mtcoding.blogv1_2.model.Board;
 import shop.mtcoding.blogv1_2.model.BoardRepository;
 import shop.mtcoding.blogv1_2.util.HtmlParse;
@@ -16,8 +17,26 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    public void 게시글수정(int boardId, int principalId) {
+    public void 게시글수정(BoardUpdateRespDto boardUpdateRespDto, int principalId) {
+        // 수정할 게시글 존재유무
+        Board boardPS = boardRepository.findById(boardUpdateRespDto.getBoardId());
+        if (boardPS == null) {
+            throw new CustomApiException("수정할 게시물이 존재하지 않습니다");
+        }
 
+        // 게시물 작성자, 로그인 유저 동일유무
+        if (boardPS.getUserId() != principalId) {
+            throw new CustomApiException("수정권한이 없습니다");
+        }
+
+        String thumbnail = HtmlParse.thumbnail(boardUpdateRespDto.getContent());
+
+        try {
+            boardRepository.updateById(boardUpdateRespDto.getBoardId(), boardUpdateRespDto.getTitle(),
+                    boardUpdateRespDto.getContent(), thumbnail);
+        } catch (Exception e) {
+            throw new CustomApiException("일시적인 서버문제가 발생했습니다", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public void 게시글삭제(int boardId, int principalId) {

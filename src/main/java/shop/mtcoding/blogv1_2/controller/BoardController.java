@@ -72,7 +72,7 @@ public class BoardController {
             throw new CustomApiException("제목은 100자 이내여야 합니다");
         }
 
-        boardService.게시글수정(id, user.getId());
+        boardService.게시글수정(boardUpdateRespDto, user.getId());
 
         return new ResponseEntity<>(new RespDto<>(1, "게시글 수정완료", null), HttpStatus.OK);
     }
