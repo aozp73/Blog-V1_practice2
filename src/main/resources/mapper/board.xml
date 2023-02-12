@@ -15,7 +15,7 @@
     </select>
 
     <select id="findByBoardIdWithUser" resultType="shop.mtcoding.blogv1_2.dto.board.BoardResp$BoardDetailRespDto">
-        SELECT bt.id board_id, bt.title, bt.user_id, ut.username FROM BOARD_TB bt
+        SELECT bt.id board_id, bt.title, bt.content, bt.user_id, ut.username FROM BOARD_TB bt
         inner join user_tb ut
         on bt.user_id = ut.id
         where bt.id = #{boardId}
