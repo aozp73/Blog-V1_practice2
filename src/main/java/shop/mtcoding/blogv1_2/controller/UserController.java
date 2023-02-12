@@ -1,5 +1,7 @@
 package shop.mtcoding.blogv1_2.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import shop.mtcoding.blogv1_2.customException.ex.CustomException;
 import shop.mtcoding.blogv1_2.dto.user.UserReq.UserJoinReqDto;
 import shop.mtcoding.blogv1_2.dto.user.UserReq.UserLoginReqDto;
+import shop.mtcoding.blogv1_2.model.User;
 import shop.mtcoding.blogv1_2.service.UserService;
 
 @RequiredArgsConstructor
@@ -15,6 +18,8 @@ import shop.mtcoding.blogv1_2.service.UserService;
 public class UserController {
 
     private final UserService userService;
+
+    private final HttpSession session;
 
     @GetMapping("/loginForm")
     public String loginForm() {

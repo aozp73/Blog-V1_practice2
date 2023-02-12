@@ -57,4 +57,18 @@ public class UserControllerTest {
         // when 테스트 체크
         resultActions.andExpect(status().is3xxRedirection());
     }
+
+    @Test
+    public void login_test() throws Exception {
+        // given
+        String requestBody = "username=cos&password=1234";
+
+        // then
+        ResultActions resultActions = mvc.perform(post("/login")
+                .content(requestBody)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE));
+
+        // when 테스트 체크
+        resultActions.andExpect(status().is3xxRedirection());
+    }
 }
