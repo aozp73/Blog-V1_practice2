@@ -55,6 +55,9 @@ public class BoardController {
 
     @PutMapping("/board/{id}") // 유효성검사 o, 인증 o, 권한 o
     public ResponseEntity<?> update(@PathVariable int id, @RequestBody BoardUpdateRespDto boardUpdateRespDto) {
+        System.out.println("디버깅1" + id);
+        System.out.println("디버깅2" + boardUpdateRespDto.getBoardId());
+
         // 인증
         User user = (User) session.getAttribute("principal");
         if (user == null) {

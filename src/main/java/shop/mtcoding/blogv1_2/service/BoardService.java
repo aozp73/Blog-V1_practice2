@@ -19,6 +19,7 @@ public class BoardService {
 
     public void 게시글수정(BoardUpdateRespDto boardUpdateRespDto, int principalId) {
         // 수정할 게시글 존재유무
+        System.out.println("테스트" + boardUpdateRespDto.getBoardId());
         Board boardPS = boardRepository.findById(boardUpdateRespDto.getBoardId());
         if (boardPS == null) {
             throw new CustomApiException("수정할 게시물이 존재하지 않습니다");

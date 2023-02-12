@@ -65,6 +65,7 @@ public class BoardControllerTest {
         // given
         int id = 1;
         BoardUpdateRespDto boardUpdateRespDto = new BoardUpdateRespDto();
+        boardUpdateRespDto.setBoardId(1);
         boardUpdateRespDto.setContent("제목수정");
         boardUpdateRespDto.setTitle("내용수정");
         String requestBody = om.writeValueAsString(boardUpdateRespDto);
@@ -76,7 +77,7 @@ public class BoardControllerTest {
                 .session(mockSession));
 
         String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.println("테스트 : " + responseBody);
+        // System.out.println("테스트 : " + responseBody);
 
         // when Service test
         resultActions.andExpect(status().isOk());
