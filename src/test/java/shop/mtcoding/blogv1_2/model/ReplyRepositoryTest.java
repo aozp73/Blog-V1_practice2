@@ -33,6 +33,6 @@ public class ReplyRepositoryTest {
         // System.out.println("테스트" + responseBody);
 
         // when
-        assertThat(dtos.get(1).getComment()).isEqualTo("댓글3");
+        assertThat(dtos.get(1).getComment()).isEqualTo("댓글1");
     }
 }
