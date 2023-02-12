@@ -8,7 +8,7 @@ public class ReplyReq {
     @Getter
     @Setter
     public static class ReplySaveReqDto {
-        private String content;
+        private String comment;
         private int boardId;
     }
 }

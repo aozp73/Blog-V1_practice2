@@ -62,11 +62,11 @@
 
         <script>
             function postReply() {
-                let content = $("#reply-content").val()
+                let comment = $("#reply-content").val()
                 let boardId = `${boardDto.boardId}`
 
                 let reply = {
-                    content: content,
+                    comment: comment,
                     boardId: boardId
                 }
 

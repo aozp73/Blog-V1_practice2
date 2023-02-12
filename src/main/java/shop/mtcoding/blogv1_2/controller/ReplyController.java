@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import lombok.RequiredArgsConstructor;
@@ -19,12 +20,12 @@ import shop.mtcoding.blogv1_2.service.ReplyService;
 @Controller
 public class ReplyController {
 
-    private HttpSession session;
+    private final HttpSession session;
 
-    private ReplyService replyService;
+    private final ReplyService replyService;
 
     @PostMapping("/reply") // 유효성 검사 o, 인증 o, 권한 x
-    public ResponseEntity<?> delete(@RequestBody ReplySaveReqDto replySaveReqDto) {
+    public ResponseEntity<?> reply(@RequestBody ReplySaveReqDto replySaveReqDto) {
         // 인증
         User user = (User) session.getAttribute("principal");
         if (user == null) {
@@ -32,7 +33,7 @@ public class ReplyController {
         }
 
         // 유효성 검사
-        if (replySaveReqDto.getContent() == null || replySaveReqDto.getContent().isEmpty()) {
+        if (replySaveReqDto.getComment() == null || replySaveReqDto.getComment().isEmpty()) {
             throw new CustomApiException("댓글 내용을 입력하세요");
         }
 
