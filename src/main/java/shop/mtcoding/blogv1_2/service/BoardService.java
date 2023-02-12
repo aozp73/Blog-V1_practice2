@@ -17,7 +17,22 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     public void 게시글삭제(int boardId, int principalId) {
+        // 삭제할 게시글 존재유무
+        Board boardPS = boardRepository.findById(boardId);
+        if (boardPS == null) {
+            throw new CustomApiException("삭제할 게시물이 존재하지 않습니다");
+        }
 
+        // 게시물 작성자, 로그인 유저 동일유무
+        if (boardPS.getUserId() != principalId) {
+            throw new CustomApiException("삭제권한이 없습니다");
+        }
+
+        try {
+            boardRepository.deleteById(boardId);
+        } catch (Exception e) {
+            throw new CustomApiException("일시적인 서버문제가 발생했습니다", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public void 게시글등록(BoardSaveReqDto boardSaveReqDto, int principalId) {
