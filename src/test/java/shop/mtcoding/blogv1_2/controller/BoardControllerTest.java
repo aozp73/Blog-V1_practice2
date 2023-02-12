@@ -70,6 +70,6 @@ public class BoardControllerTest {
         // when
         resultActions.andExpect(status().isCreated());
         resultActions.andExpect(jsonPath("$.msg").value("게시글 등록완료"));
-
+        // service test
     }
 }
