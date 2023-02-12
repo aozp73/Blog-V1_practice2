@@ -64,12 +64,12 @@ public class BoardControllerTest {
                 .content(requestBody)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .session(mockSession));
-        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        // String responseBody =
+        // resultActions.andReturn().getResponse().getContentAsString();
         // System.out.println("테스트 : " + responseBody);
 
         // when
         resultActions.andExpect(status().isCreated());
         resultActions.andExpect(jsonPath("$.msg").value("게시글 등록완료"));
-        // service test
     }
 }
