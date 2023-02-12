@@ -6,7 +6,7 @@
             <c:if test="${principal.id == boardDto.userId}">
                 <div class="mb-3">
                     <a href="/board/${boardDto.boardId}/updateForm" class="btn btn-warning">수정</a>
-                    <button onclick="deleteById(`${boardDto.boardId}`)" id="btn-delete"
+                    <button onclick="boardDeleteById(`${boardDto.boardId}`)" id="btn-delete"
                         class="btn btn-danger">삭제</button>
                 </div>
             </c:if>
@@ -49,11 +49,11 @@
                 <ul id="reply-box" class="list-group">
 
                     <c:forEach items="${replyDtos}" var="replyDto">
-                        <li id="reply-1" class="list-group-item d-flex justify-content-between">
+                        <li id="reply-${replyDto.replyId}" class="list-group-item d-flex justify-content-between">
                             <div>${replyDto.comment}</div>
                             <div class="d-flex">
                                 <div class="font-italic">작성자 : ${replyDto.username} &nbsp;</div>
-                                <button onClick="replyDelete()" class="badge bg-secondary">삭제</button>
+                                <button onClick="replyDeleteById(${replyDto.replyId})" class="badge bg-secondary">삭제</button>
                             </div>
                         </li>
                     </c:forEach>
@@ -86,7 +86,20 @@
                 });
             }
 
-            function deleteById(id) {
+            function replyDeleteById(id) {
+                $.ajax({
+                    type: "delete",
+                    url: "/reply/" + id,
+                    dataType: "json"
+                }).done((res) => {
+                    alert(res.msg);
+                    
+                }).fail((err) => {
+                    alert(err.responseJSON.msg);
+                });
+            }
+
+            function boardDeleteById(id) {
                 $.ajax({
                     type: "delete",
                     url: "/board/" + id,

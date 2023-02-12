@@ -65,7 +65,7 @@ public class ReplyControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .session(mockSession));
 
-        // then service test
+        // then 
         resultActions.andExpect(jsonPath("$.msg").value("댓글작성 완료"));
 
     }
