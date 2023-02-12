@@ -81,7 +81,7 @@ public class ReplyControllerTest {
         ResultActions resultActions = mvc.perform(delete("/reply/" + replyId)
                 .session(mockSession));
 
-        // then
+        // then service test
         resultActions.andExpect(jsonPath("$.msg").value("댓글삭제 완료"));
         resultActions.andExpect(status().isOk());
 
